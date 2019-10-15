@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="main_padding">25dp</dimen>
+    <dimen name="main_margin">16dp</dimen>
+    <dimen name="poster_image_width">185dp</dimen>
+    <dimen name="poster_image_height">277dp</dimen>
+    <dimen name="detail_image_width">185dp</dimen>
+    <dimen name="detail_image_height">104dp</dimen>
+</resources>
