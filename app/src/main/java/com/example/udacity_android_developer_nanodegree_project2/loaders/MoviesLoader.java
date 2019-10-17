@@ -24,7 +24,7 @@ public class MoviesLoader extends AsyncTaskLoader<List<Movie>> {
     private static final String PATH_KEY = "api_key";
 
     // INSERT API KEY HERE:
-    private static final String PATH_KEY_VALUE = "b054ae007651fccd6bd951f0ff5be0cd";
+    private static final String PATH_KEY_VALUE = "";
 
     private String mQuery;
 
