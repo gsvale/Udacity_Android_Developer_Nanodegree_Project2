@@ -9,8 +9,16 @@
     <string name="settings_order_by_key">order_by</string>
     <string name="settings_order_by_most_popular">Most Popular</string>
     <string name="settings_order_by_highest_rated">Highest Rated</string>
+    <string name="settings_order_by_favorites">Favorites</string>
     <string name="plot_synopsis">Plot Synopsis</string>
     <string name="user_rating">User Rating</string>
     <string name="release_date">Release Date</string>
     <string name="detail_error_message">Movie data not available</string>
+    <string name="trailers">Trailers</string>
+    <string name="reviews">Reviews</string>
+    <string name="author">Author: %s</string>
+    <string name="set_as_favorite">Set as Favorite</string>
+    <string name="set_as_no_favorite">Set as No Favorite</string>
+    <string name="set_as_favorite_message">Favorite added !</string>
+    <string name="set_as_no_favorite_message">Favorite removed !</string>
 </resources>

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,6 +47,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdap
     public void onBindViewHolder(@NonNull MoviesAdapterViewHolder holder, int position) {
         Movie movieItem = movies.get(position);
 
+        // Set movie title
+        holder.mMovieTitleTv.setText(movieItem.getOriginalTitle());
+
         // Show image from poster with aid of Picasso library
         Picasso.get()
                 .load(ImageUtils.getImagePath(movieItem.getPosterImageUrl()))
@@ -75,11 +79,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdap
 
     public class MoviesAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        TextView mMovieTitleTv;
         ImageView mMoviePosterIv;
 
         MoviesAdapterViewHolder(View view) {
             super(view);
             mMoviePosterIv = view.findViewById(R.id.movie_poster_iv);
+            mMovieTitleTv = view.findViewById(R.id.movie_title_tv);
             view.setOnClickListener(this);
         }
 

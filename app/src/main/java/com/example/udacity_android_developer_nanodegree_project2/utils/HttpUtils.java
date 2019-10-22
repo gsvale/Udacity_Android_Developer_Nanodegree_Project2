@@ -23,6 +23,28 @@ public class HttpUtils {
 
 
     public static List<Movie> fetchMoviesData(String urlString) {
+        // Return list of movie items from Json Data with valid jsonResponse
+        return JsonUtils.extractMoviesDataFromJson(callMakeHttpRequest(urlString));
+    }
+
+    // Method that returns JSON String from HTTP Request call
+    public static String fetchMovieData(String urlString){
+        return callMakeHttpRequest(urlString);
+    }
+
+    // Method to create URL object, if exception occurred it returns null
+    private static URL createUrl(String stringUrl) {
+        URL url = null;
+        try {
+            url = new URL(stringUrl);
+        } catch (MalformedURLException e) {
+            Log.e(LOG_TAG, "Problem building the URL ", e);
+        }
+        return url;
+    }
+
+    // Method that received the URL String and calls Make HttpRequest and returns the JSON resposne
+    private static String callMakeHttpRequest(String urlString){
 
         // Create object URL from urlString received
         URL url = createUrl(urlString);
@@ -35,19 +57,7 @@ public class HttpUtils {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
 
-        // Return list of movie items from Json Data with valid jsonResponse
-        return JsonUtils.extractMoviesDataFromJson(jsonResponse);
-    }
-
-    // Method to create URL object, if exception occurred it returns null
-    private static URL createUrl(String stringUrl) {
-        URL url = null;
-        try {
-            url = new URL(stringUrl);
-        } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Problem building the URL ", e);
-        }
-        return url;
+        return jsonResponse;
     }
 
     // Method to make Http Request

@@ -8,25 +8,18 @@ import androidx.annotation.Nullable;
 
 import com.example.udacity_android_developer_nanodegree_project2.R;
 import com.example.udacity_android_developer_nanodegree_project2.objects.Movie;
+import com.example.udacity_android_developer_nanodegree_project2.utils.ApiUtils;
 import com.example.udacity_android_developer_nanodegree_project2.utils.HttpUtils;
 
 import java.util.List;
 
 public class MoviesLoader extends AsyncTaskLoader<List<Movie>> {
 
-    private static final String SCHEME = "http";
-    private static final String AUTHORITY = "api.themoviedb.org";
-    private static final String PATH = "3/movie";
-
-    private static final String ORDER_BY_MOST_POPULAR_VALUE = "popular";
-    private static final String ORDER_BY_HIGHEST_RATE_VALUE = "top_rated";
-
-    private static final String PATH_KEY = "api_key";
-
-    // INSERT API KEY HERE:
-    private static final String PATH_KEY_VALUE = "";
-
+    // Query that informs the Order By preference selected
     private String mQuery;
+
+    // Variable to save movie data results
+    private List<Movie> mJsonMovieData;
 
     public MoviesLoader(Context context, String query) {
         super(context);
@@ -36,7 +29,21 @@ public class MoviesLoader extends AsyncTaskLoader<List<Movie>> {
     // First is executed OnStartLoading() that will call forceLoad() method which triggers the loadInBackground() method to execute
     @Override
     protected void onStartLoading() {
-        forceLoad();
+
+        // If there is cached data, deliver it, or else force load is called
+        if(mJsonMovieData != null){
+            deliverResult(mJsonMovieData);
+        }
+        else{
+            forceLoad();
+        }
+    }
+
+    // Return cached data from loader
+    @Override
+    public void deliverResult(List<Movie> movies) {
+        mJsonMovieData = movies;
+        super.deliverResult(movies);
     }
 
 
@@ -48,26 +55,32 @@ public class MoviesLoader extends AsyncTaskLoader<List<Movie>> {
             return null;
         }
 
-        // Build URL to be used, with the query of Order By received
+        return fetchMoviesDataFromAPI();
+    }
+
+    // Method called to fetch Movies data from the Movies API
+    private List<Movie> fetchMoviesDataFromAPI(){
+
         Uri.Builder builder = new Uri.Builder();
 
         String orderByQueryValue;
 
+        // Check order by query selected from preferences
         if(mQuery.equals(getContext().getString(R.string.settings_order_by_most_popular))){
-            orderByQueryValue = ORDER_BY_MOST_POPULAR_VALUE;
+            orderByQueryValue = ApiUtils.ORDER_BY_MOST_POPULAR_VALUE;
         }
         else{
-            orderByQueryValue = ORDER_BY_HIGHEST_RATE_VALUE;
+            orderByQueryValue = ApiUtils.ORDER_BY_HIGHEST_RATE_VALUE;
         }
 
-        builder.scheme(SCHEME)
-                .authority(AUTHORITY)
-                .appendEncodedPath(PATH)
+        // Build URL for API call
+        builder.scheme(ApiUtils.SCHEME)
+                .authority(ApiUtils.AUTHORITY)
+                .appendEncodedPath(ApiUtils.PATH)
                 .appendPath(orderByQueryValue)
-                .appendQueryParameter(PATH_KEY, PATH_KEY_VALUE);
+                .appendQueryParameter(ApiUtils.PATH_KEY, ApiUtils.PATH_KEY_VALUE);
 
         return HttpUtils.fetchMoviesData(builder.build().toString());
-
     }
 
 

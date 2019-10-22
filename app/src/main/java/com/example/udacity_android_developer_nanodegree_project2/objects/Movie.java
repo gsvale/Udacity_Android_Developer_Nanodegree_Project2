@@ -3,15 +3,29 @@ package com.example.udacity_android_developer_nanodegree_project2.objects;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+import java.util.List;
+
 /**
  * The type Movie.
  */
+@Entity(tableName = "movie")
 public class Movie implements Parcelable {
 
     /**
      * The constant MOVIE_TAG.
      */
     public static final String MOVIE_TAG = Movie.class.getSimpleName();
+
+    @PrimaryKey()
+    @NonNull
+    @ColumnInfo(name = "id")
+    private String mId;
 
     private String mPosterImageUrl;
     private String mDetailsImageUrl;
@@ -20,16 +34,24 @@ public class Movie implements Parcelable {
     private String mUserRating;
     private String mReleaseDate;
 
+    @Ignore
+    private List<MovieTrailer> mTrailers;
+
+    @Ignore
+    private List<MovieReview> mReviews;
+
 
     /**
      * Instantiates a new Movie.
      */
+    @Ignore
     public Movie() {
     }
 
     /**
      * Instantiates a new Movie.
      *
+     * @param id              the id
      * @param posterImageUrl  the poster image url
      * @param detailsImageUrl the details image url
      * @param originalTitle   the original title
@@ -37,13 +59,32 @@ public class Movie implements Parcelable {
      * @param userRating      the user rating
      * @param releaseDate     the release date
      */
-    public Movie(String posterImageUrl,String detailsImageUrl, String originalTitle, String plotSynopsis, String userRating, String releaseDate) {
+    public Movie(String id, String posterImageUrl, String detailsImageUrl, String originalTitle, String plotSynopsis, String userRating, String releaseDate) {
+        this.mId = id;
         this.mPosterImageUrl = posterImageUrl;
         this.mDetailsImageUrl = detailsImageUrl;
         this.mOriginalTitle = originalTitle;
         this.mPlotSynopsis = plotSynopsis;
         this.mUserRating = userRating;
         this.mReleaseDate = releaseDate;
+    }
+
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
+    public String getId() {
+        return mId;
+    }
+
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
+    public void setId(String id) {
+        this.mId = id;
     }
 
     /**
@@ -154,8 +195,24 @@ public class Movie implements Parcelable {
         this.mReleaseDate = releaseDate;
     }
 
+    public List<MovieTrailer> getTrailers() {
+        return mTrailers;
+    }
 
-    private Movie(Parcel in) {
+    public void setTrailers(List<MovieTrailer> trailers) {
+        this.mTrailers = trailers;
+    }
+
+    public List<MovieReview> getReviews() {
+        return mReviews;
+    }
+
+    public void setReviews(List<MovieReview> reviews) {
+        this.mReviews = reviews;
+    }
+
+    protected Movie(Parcel in) {
+        mId = in.readString();
         mPosterImageUrl = in.readString();
         mDetailsImageUrl = in.readString();
         mOriginalTitle = in.readString();
@@ -164,9 +221,6 @@ public class Movie implements Parcelable {
         mReleaseDate = in.readString();
     }
 
-    /**
-     * The constant CREATOR.
-     */
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
         @Override
         public Movie createFromParcel(Parcel in) {
@@ -186,6 +240,7 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mId);
         dest.writeString(mPosterImageUrl);
         dest.writeString(mDetailsImageUrl);
         dest.writeString(mOriginalTitle);

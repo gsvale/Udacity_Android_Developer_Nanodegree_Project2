@@ -19,7 +19,9 @@
         tools:targetApi="m">
         <activity
             android:name=".activities.MoviesActivity"
-            android:label="@string/movies">
+            android:label="@string/movies"
+            android:launchMode="singleTop"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
