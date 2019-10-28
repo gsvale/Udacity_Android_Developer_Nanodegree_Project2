@@ -17,7 +17,7 @@ public class ApiUtils {
     public static final String PATH_KEY = "api_key";
 
     // INSERT API KEY HERE:
-    public static final String PATH_KEY_VALUE = "b054ae007651fccd6bd951f0ff5be0cd";
+    public static final String PATH_KEY_VALUE = "";
 
 
 }
